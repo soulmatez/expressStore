@@ -8,4 +8,4 @@ const dbURI = `${config.db.url}/${config.db.dbname}`;
 connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //当数据库连接成功时触发此事件
-connection.on('connected', () => console.log(dbURI + ' 数据库连接成功'));
+connection.on('connected', () => console.log('\033[40;32m MongoDB Sever is Running Success\033[0m'));

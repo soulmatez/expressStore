@@ -8,6 +8,11 @@ router.post("/login", loginController.employee_login)
 /** 注册操作 */
 router.post("/sign", loginController.employee_sign)
 
+/** 注销操作 */
+router.delete("/logout", loginController.employee_logout)
+
+/** 获取验证码 */
+router.get("/captchaImage", loginController.employee_captcha)
 
 //另外访问http://localhost:3000/users/34/books/8989，可以这样提取信息（使用 userId 和 bookId 路径参数）：
 router.get('/users/:userId/lib/:bookId', (req, res) => {

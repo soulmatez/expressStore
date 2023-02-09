@@ -5,6 +5,7 @@
  */
 
 var app = require('../app');
+var pakDb = require('../package.json');
 var debug = require('debug')('expressapp:server');
 var http = require('http');
 
@@ -82,10 +83,16 @@ function onError(error) {
  */
 
 function onListening() {
-  console.log('http://localhost:3000')
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+
+  /**
+   * Node服务配置
+   */
+  console.log('\033[44;30m ExpressApp \033[40;34m v' + pakDb.version + '\033[40;32m  server running at: in 19987ms\033[1B')
+  console.log('\033[42;30m Play \033[40;32m Your Application is runing here in \33[4m http://localhost:' + addr.port + '/\33[1B\33[0m')
+ 
 }

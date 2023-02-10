@@ -1,10 +1,10 @@
 <!--
  * @Author: Soulmate
  * @Date: 2022-12-27 09:14:49
- * @LastEditTime: 2023-02-10 08:42:17
+ * @LastEditTime: 2023-02-10 11:42:12
  * @LastEditors: Soulmate
  * @Description: 
- * @FilePath: \vue3-store\src\views\laboratory\seata\index.vue
+ * @FilePath: \template\src\views\laboratory\seata\index.vue
  * 版权声明
 -->
 <!-- setup 无法设置组件名称，组件名称keepAlive必须 -->
@@ -17,6 +17,8 @@ export default {
 <script setup lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
 import {
+  Vector2,
+  Raycaster,
   Sprite,
   SpriteMaterial,
   TextureLoader,
@@ -116,6 +118,8 @@ const init = () => {
   let orbitControls = new OrbitControls(camera, renderer.domElement);
   orbitControls.autoRotateSpeed = 1;
   orbitControls.minDistance = 50;
+  //缩放倍数
+  // orbitControls.zoomSpeed = 1.0;
 
   renderScene();
   function renderScene() {
@@ -129,23 +133,72 @@ const init = () => {
     camera.updateProjectionMatrix();
   };
 
-  // 创建粒子
-  const url = `/src/assets/logo.png`;
+  // 创建热点
+  const url = `/src/assets/hot.png`;
+  const hotPoints = [
+    {
+      position: {
+        x: 0,
+        y: 0,
+        z: 300,
+      },
+      detail: {
+        name: 'outdoor',
+        title: "这是卧室",
+      },
+    },{
+      position: {
+        x: 0,
+        y: 300,
+        z: 0,
+      },
+      detail: {
+        name: 'indoor',
+        title: "这是厨房",
+      },
+    },
+  ];
+  let poiObjects = [] as any;
   const material = new SpriteMaterial({
     map: new TextureLoader().load(url),
     color: 0xffffff,
   });
   material.rotation = Math.PI;
-  const range = 500;
-  for (let i = 0; i < 1000; i++) {
-    const sprite = new Sprite(material);
+  for (let i = 0; i < hotPoints.length; i++) {
+    const sprite = new Sprite(material) as any;
     sprite.position.set(
-      Math.random() * range - range / 2,
-      Math.random() * range - range / 2,
-      Math.random() * range - range / 2
+      hotPoints[i].position.x,
+      hotPoints[i].position.y,
+      hotPoints[i].position.z
     );
     sprite.scale.set(10, 10, 10);
+    // 添加指示语
+    sprite.detail = hotPoints[i].detail.title;
+    sprite.name = hotPoints[i].detail.name;
+    poiObjects.push(sprite);
     scene.add(sprite);
+  }
+  console.log(scene)
+  addClick();
+  function addClick() {
+    window.addEventListener("click", clickFunc); //页面绑定鼠标点击事件
+    //点击方法
+    function clickFunc(e: any) {
+      var raycaster = new Raycaster(); //光线投射，用于确定鼠标点击位置
+      var mouse = new Vector2(); //创建二维平面
+      //将html坐标系转化为webgl坐标系，并确定鼠标点击位置
+      mouse.x = (e.clientX / renderer.domElement.clientWidth) * 2 - 1;
+      mouse.y = -((e.clientY / renderer.domElement.clientHeight) * 2) + 1;
+      //以camera为z坐标，确定所点击物体的3D空间位置
+      raycaster.setFromCamera(mouse, camera);
+      //确定所点击位置上的物体数量
+      var intersects = raycaster.intersectObjects(poiObjects);
+      //选中后进行的操作
+      if (intersects.length) {
+        console.log("选中了");
+        changeName(intersects[0].object.name);
+      }
+    }
   }
 };
 

@@ -2,19 +2,22 @@ const { userModel } = require('../model/user.js')
 const { setToken } = require("../../utils/authotoken").default
 const { setCaptcha } = require("../../utils/index").default
 const { _pubkey, _prikey, decrypt } = require('../../utils/keyStore').default
-
+const client = require('../../config/database').client
 
 //处理登录操作
 const employee_login = async(req, res) => {
     let { username, password } = req.body;
     const data = await userModel.findOne({ 
         'user.userName': username, 
-        'user.password': decrypt(_prikey, password) 
+        'user.password': decrypt(_prikey, password)
     });
     if(data != null){
         // 生成token
         setToken(username, data._id).then((token) => {
-            console.log(username, data._id)
+            // 将token存储到redis
+            client.set(token, data._id.toString(), function(err, res){
+                client.expire(token, 60 * 60)
+            })
             res.json({
                 code: 200,
                 mes: "登录成功",

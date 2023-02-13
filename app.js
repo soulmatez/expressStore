@@ -8,6 +8,7 @@ const { verToken, signkey } = require("./utils/authotoken").default
 const { userModel } = require('./dao/model/user.js')
 
 require('./config/database.js')
+const client = require('./config/database').client
 
 var loginRouter = require('./routes/login');
 var menuRouter = require('./routes/menu');
@@ -45,38 +46,19 @@ app.all("*",function(req,res,next){
       code: 401
     }) 
   }else{
-    verToken(token).then(async (data)=> {
-      const userData = await userModel.findOne({ 
-          'user.userName': data.name, 
-          '_id': data._id 
-      });
-      
-      if(req.cookies.token != undefined){
-        //说明jwt已经过期了，cookie需要在这里进行延期
-        // 说明过期，cookie还没有需要存储cookie
-        if(parseInt(data.exp) * 1000 - new Date().getTime() < 1000 * 600){
-          res.cookie('token', token, { maxAge: 600 * 1000, httpOnly: true });
-        }
+    client.get(token, function(err, data){
+      if(data != null){
+        // 延期token
+        client.set(token, data, function(err, suc){
+          client.expire(token, 60 * 60)
+        })
         next();
       }else{
-        if(userData != null){
-          // 说明过期，cookie还没有需要存储cookie
-          if(parseInt(data.exp) * 1000 - new Date().getTime() < 0){
-            res.cookie('token', token, { maxAge: 600 * 1000, httpOnly: true });
-          }
-          next();
-        }else{
-          res.status(401).json({
-            code: 402,
-            msg: '用户状态异常，请重新登录！'
-          })  
-        }
+        res.status(401).json({
+          code: 402,
+          msg: '用户状态异常，请重新登录！'
+        })  
       }
-    }).catch((error)=>{
-      res.status(401).json({
-        code: 402,
-        msg: '用户状态异常，请重新登录！'
-      }) 
     })
   }
 })

@@ -1,10 +1,10 @@
 /*
  * @Author: Soulmate
  * @Date: 2022-06-17 15:45:43
- * @LastEditTime: 2023-02-08 14:33:03
+ * @LastEditTime: 2023-02-13 14:31:50
  * @LastEditors: Soulmate
  * @Description: 
- * @FilePath: \vue3-store\src\store\modules\user\index.ts
+ * @FilePath: \template\src\store\modules\user\index.ts
  * 版权声明
  */
 import { defineStore } from 'pinia';
@@ -43,7 +43,7 @@ const useUserStore = defineStore({
         })
           .then((response) => {
             const { access_token, token_type } = response.data;
-            const accessToken = token_type + ' ' + access_token;
+            const accessToken = access_token;
             localStorage.set('token', accessToken);
             this.token = accessToken;
             resolve(access_token);

@@ -13,7 +13,8 @@ function setToken(username, userid) {
 }
 
 function verToken(token) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) =>
+     {
         var info = jwt.verify(token.split(' ')[1], signkey);
         resolve(info);
     })

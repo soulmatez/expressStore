@@ -1,4 +1,4 @@
-const { userModel } = require('../model/user.js')
+const { userModel } = require('../model/system/user.js')
 const { setToken } = require("../../utils/authotoken").default
 const { setCaptcha } = require("../../utils/index").default
 const { _pubkey, _prikey, decrypt } = require('../../utils/keyStore').default
@@ -54,8 +54,10 @@ const employee_logout = (req, res) => {
 
 //用户查询操作
 const employee_find = async (req, res) => {
+    console.log(1)
     //这里演示查询所有用户,find不传参数为查询所有用户
     const data = await userModel.findOne(req.body)
+    console.log(2)
     res.json({
         code: 200,
         mes: "登录成功",

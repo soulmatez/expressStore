@@ -47,9 +47,11 @@ function setRedisValue(){
     client.set(key, value, redis.print);
 }
 
-function getRedisValue(){
-    // 读取redis
-    client.get(key, function(err, reply) {})
+function getRedisValue(_key, callback){
+    return new Promise((resolve, reject)=>{
+        // 读取redis
+        client.get(key, function(err, reply) {})
+    })
 }
 
 exports.client = client;

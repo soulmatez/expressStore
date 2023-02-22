@@ -4,16 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var ejs = require('ejs')
-const { verToken, signkey } = require("./utils/authotoken").default
-const { userModel } = require('./dao/model/user.js')
 
 require('./config/database.js')
 const client = require('./config/database').client
 
 var loginRouter = require('./routes/login');
-var menuRouter = require('./routes/menu');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var menuRouter = require('./routes/system/menu');
+var indexRouter = require('./routes/system/index');
+var usersRouter = require('./routes/system/users');
+var rolesRouter = require('./routes/system/roles');
+var deptsRouter = require('./routes/system/depts');
 
 var app = express();
 app.use(cookieParser())
@@ -26,7 +26,10 @@ app.all("*",function(req,res,next){
   res.header("Access-Control-Allow-Headers","content-type");
   //跨域允许的请求方式 
   res.header("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
-
+  //30s
+  res.header('Cache-Control', 'no-cache');
+  //兼容低版本, 到什么时间结束
+  //res.header('Expires', new Date(Date.now() + 10 * 1000).toUTCString());
 
   // 设置路由白名单，免除jwt权限校验
   var whiteRouterList = [
@@ -80,6 +83,9 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/oauth', loginRouter);
 app.use('/menus', menuRouter);
+app.use('/roles', rolesRouter);
+app.use('/depts', deptsRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

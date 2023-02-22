@@ -1,5 +1,5 @@
 const svgCaptcha = require("svg-captcha")  // 加载图片验证码模块+
-
+const moment = require('moment');  //时间戳插件
 /**
  * 生成验证码
  */
@@ -23,6 +23,49 @@ function setCaptcha(){
     return captcha;
 }
 
+/**
+ * 获取当前时间
+ * form_type: 时间格式
+ */
+function format(formType){
+    var current_time = moment(Date.now()).format(formType)
+    return current_time;
+}
+
+/**
+ * 数组去重
+ * arr: 目标数组
+ */
+function noRepeat(arr) {
+    for(var i = 0; i < arr.length-1; i++){
+        for(var j = i+1; j < arr.length; j++){
+            if(arr[i]===arr[j]){
+                arr.splice(j,1);
+                j--;
+            }
+        }
+    }
+    return arr;
+}
+
+/**
+ * 数组递归
+ */
+function recursionArray(arr) {
+    const array = [];
+    arr.forEach(item => {
+        const it = JSON.parse(JSON.stringify(item))
+        Object.assign(it, {
+            label: it.meta.title
+        })
+        array.push(it)
+        if(it.children && it.children.length > 0){
+            it.children = recursionArray(it.children)
+        }
+    })
+    return array;
+}
+
 exports.default = {
-    setCaptcha
+    setCaptcha, format, noRepeat, recursionArray
 }

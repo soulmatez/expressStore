@@ -1,10 +1,10 @@
 /*
  * @Author: Soulmate
  * @Date: 2022-06-17 14:18:28
- * @LastEditTime: 2022-06-28 09:24:09
+ * @LastEditTime: 2023-02-21 15:09:43
  * @LastEditors: Soulmate
  * @Description: 
- * @FilePath: \storeVue3Ts\src\main.ts
+ * @FilePath: \template\src\main.ts
  * 版权声明
  */
 import { createApp, Directive } from 'vue'
@@ -20,6 +20,7 @@ import '@/style/index.scss';
 // 引入elementUI-PLUS
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import Pagination from '@/components/Pagination/index.vue';
 
 // 引入svg注册脚本
 import 'virtual:svg-icons-register';
@@ -38,6 +39,7 @@ Object.keys(directive).forEach((key) => {
 
 
     app
+    .component('Pagination', Pagination)
     .use(createPinia())
     .use(i18n)
     .use(router)

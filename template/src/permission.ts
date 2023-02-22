@@ -1,10 +1,10 @@
 /*
  * @Author: Soulmate
  * @Date: 2022-06-22 09:53:07
- * @LastEditTime: 2023-02-07 10:44:00
+ * @LastEditTime: 2023-02-20 17:12:24
  * @LastEditors: Soulmate
  * @Description: 
- * @FilePath: \vue3-store\src\permission.ts
+ * @FilePath: \template\src\permission.ts
  * 版权声明
  */
 import router from '@/router';
@@ -29,6 +29,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
       const hasGetUserInfo = user.roles.length > 0;
       if (hasGetUserInfo) {
+        console.log(to, to.matched.length === 0)
         if (to.matched.length === 0) {
           from.name ? next({ name: from.name }) : next('/401');
         } else {

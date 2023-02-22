@@ -1,10 +1,10 @@
 /*
  * @Author: Soulmate
  * @Date: 2022-12-23 09:25:24
- * @LastEditTime: 2023-02-08 14:10:10
+ * @LastEditTime: 2023-02-13 16:27:58
  * @LastEditors: Soulmate
  * @Description: 
- * @FilePath: \vue3-store\src\utils\request.ts
+ * @FilePath: \template\src\utils\request.ts
  * 版权声明
  */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
@@ -60,17 +60,22 @@ service.interceptors.response.use(
   (error) => {
     const { code, msg } = error.response.data;
     if (code === 401) {
-      ElMessageBox.alert('当前页面已失效，请重新登录', '提示', {});
+      ElMessageBox.alert( msg || '当前页面已失效，请重新登录', '提示', {});
+      localStorage.clear(); // 清除浏览器全部缓存
+      setTimeout(function(){
+        window.location.href = '/'; // 跳转登录页
+      }, 1200)
+    } else if(code === 404){
+      ElMessage({
+        message: '接口异常',
+        type: 'error',
+      });
     } else {
       ElMessage({
         message: msg || '系统出错',
         type: 'error',
       });
     }
-    localStorage.clear(); // 清除浏览器全部缓存
-    setTimeout(function(){
-      window.location.href = '/'; // 跳转登录页
-    }, 1200)
     return Promise.reject(new Error(msg || 'Error'));
   }
 );

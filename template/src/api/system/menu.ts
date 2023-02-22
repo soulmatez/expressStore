@@ -1,13 +1,13 @@
 /*
  * @Author: Soulmate
  * @Date: 2022-06-22 10:00:08
- * @LastEditTime: 2022-06-27 17:02:26
+ * @LastEditTime: 2023-02-21 16:09:05
  * @LastEditors: Soulmate
  * @Description: 
- * @FilePath: \storeVue3Ts\src\api\system\menu.ts
+ * @FilePath: \template\src\api\system\menu.ts
  * 版权声明
  */
-import { MenuFormData, MenuItem, MenuQueryParam } from '@/types';
+import { MenuFormData, MenuItem, MenuQueryParam, Option } from '@/types';
 import request from '@/utils/request';
 import { AxiosPromise } from 'axios';
 
@@ -36,7 +36,15 @@ export function listTableMenus(
   });
 }
 
-
+/**
+ * 获取菜单下拉列表
+ */
+export function listSelectMenus(): AxiosPromise<Option[]> {
+  return request({
+    url: '/menus/select',
+    method: 'get',
+  });
+}
 
 /**
  * 获取菜单详情

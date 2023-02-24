@@ -1,7 +1,7 @@
 /*
  * @Author: Soulmate
  * @Date: 2022-06-22 10:00:08
- * @LastEditTime: 2023-02-21 16:09:05
+ * @LastEditTime: 2023-02-24 17:10:54
  * @LastEditors: Soulmate
  * @Description: 
  * @FilePath: \template\src\api\system\menu.ts
@@ -31,8 +31,8 @@ export function listTableMenus(
 ): AxiosPromise<MenuItem[]> {
   return request({
     url: '/menus/table',
-    method: 'get',
-    params: queryParams,
+    method: 'post',
+    data: queryParams,
   });
 }
 
@@ -50,9 +50,9 @@ export function listSelectMenus(): AxiosPromise<Option[]> {
  * 获取菜单详情
  * @param id
  */
-export function getMenuDetail(id: number): AxiosPromise<MenuFormData> {
+export function getMenuDetail(menuId: number, parentId: string): AxiosPromise<MenuFormData> {
   return request({
-    url: '/menus/' + id,
+    url: `/menus/${menuId}/${parentId}`,
     method: 'get',
   });
 }
@@ -60,13 +60,14 @@ export function getMenuDetail(id: number): AxiosPromise<MenuFormData> {
 /**
  * 添加菜单
  *
+ * @param pid
  * @param data
  */
-export function addMenu(data: MenuFormData) {
+export function addMenu(pid: string, data: MenuFormData) {
   return request({
-    url: '/menus',
+    url: `/menus/addMenu/${pid}`,
     method: 'post',
-    data: data,
+    data,
   });
 }
 
@@ -74,13 +75,14 @@ export function addMenu(data: MenuFormData) {
  * 修改菜单
  *
  * @param id
+ * @param pid
  * @param data
  */
-export function updateMenu(id: string, data: MenuFormData) {
+export function updateMenu(id: string, pid: string, data: MenuFormData) {
   return request({
-    url: '/menus/' + id,
+    url: `/menus/${id}/${pid}`,
     method: 'put',
-    data: data,
+    data,
   });
 }
 
@@ -89,9 +91,10 @@ export function updateMenu(id: string, data: MenuFormData) {
  *
  * @param ids 菜单ID，多个以英文逗号(,)分割
  */
-export function deleteMenus(ids: string) {
+export function deleteMenus(ids: string, pid: string, data: any) {
   return request({
-    url: '/menus/' + ids,
+    url: `/menus/${ids}/${pid}`,
     method: 'delete',
+    data
   });
 }

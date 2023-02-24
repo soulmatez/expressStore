@@ -9,7 +9,7 @@ const dept_list_data = async(req, res) => {
     const data = await deptModel.find({});
     res.json({
         code: 200,
-        mes: "获取成功",
+        msg: "获取成功",
         data: {
             list: data
         }

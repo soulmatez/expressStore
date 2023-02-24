@@ -20,7 +20,7 @@ const employee_login = async(req, res) => {
             })
             res.json({
                 code: 200,
-                mes: "登录成功",
+                msg: "登录成功",
                 data: {
                     access_token: token,
                     token_type: 'token'
@@ -30,8 +30,8 @@ const employee_login = async(req, res) => {
         
     }else{
         res.json({
-            code: 200,
-            mes: "用户名或密码不正确"
+            code: 500,
+            msg: "用户名或密码不正确"
         })
     }
         
@@ -48,7 +48,7 @@ const employee_sign = async (req, res) => {
 const employee_logout = (req, res) => {
     res.json({
         code: 200,
-        mes: "注销成功"
+        msg: "注销成功"
     })
 }
 
@@ -60,7 +60,7 @@ const employee_find = async (req, res) => {
     console.log(2)
     res.json({
         code: 200,
-        mes: "登录成功",
+        msg: "登录成功",
         data
     })
 }

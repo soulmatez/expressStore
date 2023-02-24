@@ -111,8 +111,8 @@ const state = reactive({
   } as UserQueryParam,
   // 表单校验
   rules: {
-    username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
-    nickname: [
+    userName: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+    nickName: [
       { required: true, message: '用户昵称不能为空', trigger: 'blur' },
     ],
     deptId: [{ required: true, message: '归属部门不能为空', trigger: 'blur' }],
@@ -431,11 +431,10 @@ function submitImportForm() {
         ElMessage.warning('上传Json文件不能为空');
         return false;
       }
-
       const deptId = state.importFormData.deptId;
       const roleIds = state.importFormData.roleIds.join(',');
       importUser(deptId, roleIds, state.excelFile).then((response: any) => {
-        ElMessage.success(response.mes);
+        ElMessage.success(response.msg);
         closeImportDialog();
         handleQuery();
       });

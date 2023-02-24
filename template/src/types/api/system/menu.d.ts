@@ -1,10 +1,10 @@
 /*
  * @Author: Soulmate
  * @Date: 2022-06-27 13:38:59
- * @LastEditTime: 2022-06-29 09:39:33
+ * @LastEditTime: 2023-02-22 14:52:41
  * @LastEditors: Soulmate
  * @Description: 
- * @FilePath: \storeVue3Ts\src\types\api\system\menu.d.ts
+ * @FilePath: \template\src\types\api\system\menu.d.ts
  * 版权声明
  */
 /**
@@ -38,7 +38,7 @@
     /**
      * 菜单ID
      */
-    id?: string;
+    _id?: string;
     /**
      * 父菜单ID
      */
@@ -73,6 +73,11 @@
      * 菜单类型(1:菜单；2：目录；3：外链)
      */
     type: string;
+
+    /**
+     * meta
+     */
+    meta: any
   }
   
   /**

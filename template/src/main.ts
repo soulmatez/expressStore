@@ -1,7 +1,7 @@
 /*
  * @Author: Soulmate
  * @Date: 2022-06-17 14:18:28
- * @LastEditTime: 2023-02-21 15:09:43
+ * @LastEditTime: 2023-02-24 16:41:30
  * @LastEditors: Soulmate
  * @Description: 
  * @FilePath: \template\src\main.ts
@@ -22,6 +22,9 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import Pagination from '@/components/Pagination/index.vue';
 
+// 根据字典编码获取字典列表全局方法
+import { listDictsByCode } from '@/api/system/dict';
+
 // 引入svg注册脚本
 import 'virtual:svg-icons-register';
 
@@ -30,6 +33,9 @@ import 'virtual:svg-icons-register';
 import i18n from '@/lang/index';
 
 const app = createApp(App);
+
+// 全局方法
+app.config.globalProperties.$listDictsByCode = listDictsByCode;
 
 // 自定义指令
 import * as directive from '@/directive';

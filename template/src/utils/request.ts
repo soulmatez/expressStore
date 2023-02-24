@@ -1,7 +1,7 @@
 /*
  * @Author: Soulmate
  * @Date: 2022-12-23 09:25:24
- * @LastEditTime: 2023-02-13 16:27:58
+ * @LastEditTime: 2023-02-24 09:23:31
  * @LastEditors: Soulmate
  * @Description: 
  * @FilePath: \template\src\utils\request.ts

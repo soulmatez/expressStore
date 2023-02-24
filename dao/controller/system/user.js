@@ -40,7 +40,7 @@ const user_list_data = async(req, res) => {
     })
     res.json({
         code: 200,
-        mes: "获取成功",
+        msg: "获取成功",
         data: {
             list: list,
             total: data.length
@@ -86,7 +86,7 @@ const user_Info_data = (req, res) => {
             })
             res.json({
                 code: 200,
-                mes: "登录成功",
+                msg: "登录成功",
                 data: user
             })
         }
@@ -106,7 +106,7 @@ const user_Detail_data = async(req, res) => {
     const data = await userModel.findById(id)
     res.json({
         code: 200,
-        mes: "获取成功",
+        msg: "获取成功",
         data
     })
 }
@@ -147,7 +147,7 @@ const user_add_controller = async(req, res) => {
     const data = await userModel.create(userMo);
     res.json({
         code: 200,
-        mes: "新增成功",
+        msg: "新增成功",
         data
     })
 }
@@ -185,7 +185,7 @@ const user_update_controller = async(req, res) => {
         const data = await userModel.updateOne({_id}, userMo);
         res.json({
             code: 200,
-            mes: "修改成功",
+            msg: "修改成功",
             data
         })
     }
@@ -207,7 +207,7 @@ const user_updatePart_controller = async(req, res) => {
     const data = await userModel.updateOne({_id}, userObj);
     res.json({
         code: 200,
-        mes: "修改成功",
+        msg: "修改成功",
         data
     })
 }
@@ -222,7 +222,7 @@ const user_del_controller = async(req, res) => {
     const data = await userModel.remove({ _id: { $in: userIds.split(',') } });;
     res.json({
         code: 200,
-        mes: "删除成功",
+        msg: "删除成功",
         data
     })
 }
@@ -235,8 +235,8 @@ const user_del_controller = async(req, res) => {
 const user_import_controller = async(req, res) => {
     if (req.file === undefined) {
         res.json({
-            code: 200,
-            mes: "模型上传失败"
+            code: 500,
+            msg: "模型上传失败"
         })
     }
     let { deptId, roleIds } = req.body; 
@@ -246,12 +246,12 @@ const user_import_controller = async(req, res) => {
     // 获取json数据进行解析
     fs.readFile(req.file.path, 'utf8', async function (err, json_str) {
         if(err) res.json({
-            code: 200,
-            mes: "读取失败"
+            code: 500,
+            msg: "读取失败"
         })
         if(!!!json_str) res.json({
-            code: 200,
-            mes: "文件内容为空"
+            code: 500,
+            msg: "文件内容为空"
         })
         let JsonArr = [];
         var json_arr = JSON.parse(json_str);
@@ -280,7 +280,7 @@ const user_import_controller = async(req, res) => {
         const data = await userModel.create(JsonArr);
         res.json({
             code: 200,
-            mes: `数据导入成功,共计${allTotal}条数据，成功${successTotal},失败${allTotal-successTotal}`,
+            msg: `数据导入成功,共计${allTotal}条数据，成功${successTotal},失败${allTotal-successTotal}`,
             data
         })
     })
@@ -302,7 +302,7 @@ const user_download_controller = async(req, res) => {
         if(json_str){
             res.json({
                 code: 200,
-                mes: "下载成功",
+                msg: "下载成功",
                 data: json_str
             })
         }
@@ -320,7 +320,7 @@ const user_export_controller = async(req, res) => {
     const data = await userModel.remove({ _id: { $in: userIds.split(',') } });;
     res.json({
         code: 200,
-        mes: "删除成功",
+        msg: "删除成功",
         data
     })
 }
